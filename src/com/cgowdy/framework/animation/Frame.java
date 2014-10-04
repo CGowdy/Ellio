@@ -1,4 +1,4 @@
-package com.cgowdy.game.framework.animation;
+package com.cgowdy.framework.animation;
 import java.awt.Image;
 
 public class Frame {

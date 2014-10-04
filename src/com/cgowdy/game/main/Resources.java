@@ -9,8 +9,8 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-import com.cgowdy.game.framework.animation.Animation;
-import com.cgowdy.game.framework.animation.Frame;
+import com.cgowdy.framework.animation.Animation;
+import com.cgowdy.framework.animation.Frame;
 
 public class Resources {
 	public static BufferedImage welcome, iconimage, block, cloud1, cloud2, duck, grass, jump, run1, run2, run3, run4, run5, selector;
