@@ -30,7 +30,7 @@ public class Block {
 	}
 	
 	public void updateRect(){
-		rect.setBounds((int)x, (int)y, width, heigth);
+		rect.setBounds((int)x, (int)y, width, height);
 	}
 	
 	public void reset(){

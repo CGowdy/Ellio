@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import com.cgowdy.game.main.Resources;
-import com.cgowdy.game.state.State;
 
 public class LoadState extends State {
 

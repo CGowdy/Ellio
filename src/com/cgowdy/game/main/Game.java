@@ -20,6 +20,7 @@ public class Game extends JPanel implements Runnable {
 	private Thread gameThread;
 	private volatile boolean running;
 	private volatile State currentState;
+
 	private InputHandler inputHandler;
 
 	public Game(int gameWidth, int gameHeight) {
@@ -35,12 +36,11 @@ public class Game extends JPanel implements Runnable {
 		System.gc();
 		newState.init();
 		currentState = newState;
-		inputHandler.setCurrentState(newState);
+		inputHandler.setCurrentState(currentState);
 	}
 
 	@Override
 	public void addNotify() {
-		// TODO Auto-generated method stub
 		super.addNotify();
 		initInput();
 		setCurrentState(new LoadState());
@@ -55,24 +55,25 @@ public class Game extends JPanel implements Runnable {
 
 	@Override
 	public void run() {
-		long updateDurationMillis = 0;
-		long sleepDurationMillis = 0;
-
+		// These variables should sum up to 17 on every iteration
+		long updateDurationMillis = 0; // Measures both update AND render
+		long sleepDurationMillis = 0; // Measures sleep
 		while (running) {
 			long beforeUpdateRender = System.nanoTime();
 			long deltaMillis = updateDurationMillis + sleepDurationMillis;
+
 			updateAndRender(deltaMillis);
 
 			updateDurationMillis = (System.nanoTime() - beforeUpdateRender) / 1000000L;
 			sleepDurationMillis = Math.max(2, 17 - updateDurationMillis);
+
 			try {
 				Thread.sleep(sleepDurationMillis);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		// Exit game immediately
+		// End game immediately when running becomes false.
 		System.exit(0);
 	}
 
@@ -83,32 +84,23 @@ public class Game extends JPanel implements Runnable {
 		renderGameImage(getGraphics());
 	}
 
-	private void renderGameImage(Graphics g) {
-		if (gameImage == null) {
-			g.drawImage(gameImage, 0, 0, null);
-		}
-		g.dispose();
-
-	}
-
 	private void prepareGameImage() {
 		if (gameImage == null) {
 			gameImage = createImage(gameWidth, gameHeight);
 		}
-
+		Graphics g = gameImage.getGraphics();
+		g.clearRect(0, 0, gameWidth, gameHeight);
 	}
 
 	public void exit() {
 		running = false;
 	}
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		if (gameImage == null) {
-			return;
+	private void renderGameImage(Graphics g) {
+		if (gameImage != null) {
+			g.drawImage(gameImage, 0, 0, null);
 		}
-		g.drawImage(gameImage, 0, 0, null);
+		g.dispose();
 	}
 
 	private void initInput() {
@@ -116,5 +108,4 @@ public class Game extends JPanel implements Runnable {
 		addKeyListener(inputHandler);
 		addMouseListener(inputHandler);
 	}
-
 }

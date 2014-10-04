@@ -23,6 +23,7 @@ public class Player {
 
 		ground = new Rectangle(0, 405, 800, 45);
 		rect = new Rectangle();
+		duckRect = new Rectangle();
 		isAlive = true;
 		isDucked = false;
 		updateRects();
